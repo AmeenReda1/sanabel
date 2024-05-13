@@ -31,14 +31,14 @@ export class UserService {
     private jwtService: JwtService,
     private emailService: EmailService,
     private productService: ProductService,
-    private companyService: CompanyService,
+    // private companyService: CompanyService,
   ) {}
   async findAll(query): Promise<Paginated<User>> {
     return paginate(query, this.userRepository, userPaginateConfig);
   }
-  async createUser(createUserDto: CreateUserDto): Promise<User> {
+  async createUser(createUserDto: CreateUserDto, owner = false): Promise<User> {
     const { email, role, ...otherProps } = createUserDto;
-
+    console.log(role);
     const userExists = await this.userRepository.findOne({ where: { email } });
     if (userExists) {
       throw new ConflictException(`User with this email already exists`);
@@ -52,8 +52,11 @@ export class UserService {
       role: roleEntity,
       ...otherProps,
     };
-
     const savedUser = await this.userRepository.create(newUser);
+    if (owner) {
+      return savedUser;
+    }
+
     return await this.userRepository.save(savedUser);
   }
   async validateUser(email: string, pass: string) {

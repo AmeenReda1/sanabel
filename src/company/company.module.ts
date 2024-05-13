@@ -16,6 +16,7 @@ import { AdminModule } from 'src/admin/admin.module';
     TypeOrmModule.forFeature([Company, User, Product]),
     forwardRef(() => UserModule),
     AdminModule,
+    UserModule,
   ],
   controllers: [CompanyController],
   providers: [CompanyService, JwtStrategy, PermissionsGuard, AdminJwtAuthGuard],

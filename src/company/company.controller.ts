@@ -29,17 +29,10 @@ export class CompanyController {
   @UseGuards(AdminJwtAuthGuard, PermissionsGuard)
   @Post()
   async createCompany(@Body() createComapnyDto: CreateCompanyDto) {
-    const { user, company } = createComapnyDto;
     console.log('inside create in company controller');
-    const newComapny = await this.companyService.createCompany(company);
-    if (!newComapny) {
-      throw new ConflictException(`There is a company with the same Name`);
-    }
-    const companyOwner = await this.userService.createUser(user);
-    const savedCompany = await this.companyService.assignOwnerToComapny(
-      companyOwner,
-      newComapny,
-    );
+    const savedCompany =
+      await this.companyService.createCompanyAndAssignOwner(createComapnyDto);
+
     return savedCompany;
   }
 

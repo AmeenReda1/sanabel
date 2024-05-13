@@ -33,8 +33,8 @@ export class AdminService {
         `This Admin Email ${email} used by anthor Admin`,
       );
     }
-    const newAdmin = await this.adminRepository.create(adminDto);
-    return await this.adminRepository.save(newAdmin);
+    const newAdmin = this.adminRepository.create(adminDto);
+    return this.adminRepository.save(newAdmin);
   }
   async validateAdmin(email: string, pass: string) {
     const existingAdmin = await this.adminRepository.findOne({
