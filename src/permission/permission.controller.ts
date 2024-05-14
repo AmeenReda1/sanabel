@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { PermissionDto } from './dtos/permission.dto';
 import { permissionService } from './permission.service';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
@@ -12,11 +12,12 @@ import { PermissionsGuard } from 'src/common/gurads/permission.guard';
 @Controller('permission')
 export class permissionController {
   constructor(private readonly permissionService: permissionService) {}
+
   @PermissionDecorator('Create_Permission')
   @UseGuards(AdminJwtAuthGuard, PermissionsGuard)
   @Post()
-  async createpermission(@Body() permissionDto: PermissionDto) {
-    return await this.permissionService.createPermission(permissionDto);
+  async create(@Body() permissionDto: PermissionDto) {
+    return await this.permissionService.create(permissionDto);
   }
 
   @ApiCreatedResponse({
@@ -26,10 +27,10 @@ export class permissionController {
   @PermissionDecorator('Get_Permissinos')
   @UseGuards(AdminJwtAuthGuard, PermissionsGuard)
   @Get()
-  async getAllpermissions(@Paginate() query: PaginateQuery) {
+  async findAll(@Paginate() query: PaginateQuery) {
     const logger = new LoggerService();
     const log = logger.consoleLogger();
-    log.warn('try this');
+    log.warn('try this warn logger');
     return await this.permissionService.findAll(query);
   }
 }

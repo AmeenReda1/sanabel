@@ -23,10 +23,10 @@ import { AdminModule } from 'src/admin/admin.module';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         global: true,
-        secret: `${configService.getOrThrow<string>('JWT_SECRET')}`, // Replace with your own secret key
+        secret: `${configService.getOrThrow<string>('JWT_SECRET')}`,
         signOptions: {
           expiresIn: `${configService.getOrThrow<string>('JWT_EXPIRE_In')}`,
-        }, // Optional: Configure expiration time
+        },
       }),
       inject: [ConfigService],
     }),

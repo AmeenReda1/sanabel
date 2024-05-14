@@ -22,7 +22,7 @@ export class CompanyService {
     private userService: UserService,
   ) {}
 
-  async createCompany(companyName: string): Promise<Company> {
+  async create(companyName: string): Promise<Company> {
     const companyExists = await this.companyRepsitory.findOne({
       where: { companyName },
     });
@@ -41,12 +41,6 @@ export class CompanyService {
       throw new NotFoundException(`There isn't Company with this data`);
     }
     return companyExists;
-  }
-
-  async assignOwnerToComapny(user: User, company: Company): Promise<Company> {
-    company.owner = user;
-
-    return await this.companyRepsitory.save(company);
   }
   async assignProduct(
     comapnyId: number,
@@ -75,10 +69,8 @@ export class CompanyService {
     return paginate(query, this.companyRepsitory, companyPaginateConfig);
   }
 
-  async createCompanyAndAssignOwner(
-    createCompanyDto: CreateCompanyDto,
-  ): Promise<Company> {
-    const { user, company } = createCompanyDto;
+  async createAndAssignOwner(createDto: CreateCompanyDto): Promise<Company> {
+    const { user, company } = createDto;
 
     return await this.entityManager.transaction(async (entityManager) => {
       // Create company

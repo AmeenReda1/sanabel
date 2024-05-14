@@ -23,7 +23,7 @@ export class AdminService {
     private emailService: EmailService,
   ) {}
 
-  async createAdmin(adminDto: AdminDto): Promise<Admin> {
+  async create(adminDto: AdminDto): Promise<Admin> {
     const { email } = adminDto;
     const existingAdmin = await this.adminRepository.findOne({
       where: { email },
@@ -36,7 +36,8 @@ export class AdminService {
     const newAdmin = this.adminRepository.create(adminDto);
     return this.adminRepository.save(newAdmin);
   }
-  async validateAdmin(email: string, pass: string) {
+
+  async validate(email: string, pass: string) {
     const existingAdmin = await this.adminRepository.findOne({
       where: { email },
     });
@@ -59,7 +60,8 @@ export class AdminService {
     });
     return { existingAdmin, token };
   }
-  async deleteAdmin(email: string) {
+
+  async delete(email: string) {
     const existingAdmin = await this.adminRepository.findOne({
       where: { email },
     });
@@ -69,6 +71,7 @@ export class AdminService {
     const { id } = existingAdmin;
     await this.adminRepository.delete({ id });
   }
+
   async forgetPasword(forgetPassowrdDto: ForgetPasswordDto) {
     //  check if the email exists and send token via email
     const { email } = forgetPassowrdDto;
@@ -94,6 +97,7 @@ export class AdminService {
       await this.adminRepository.save(exsitingUser);
     }
   }
+
   async resetPassword(token: UUID, newPassword: string) {
     const existingUser = await this.adminRepository.findOne({
       where: { tokenId: token },
@@ -118,6 +122,7 @@ export class AdminService {
       throw new UnauthorizedException(`Invalid Email Token`);
     }
   }
+
   async findAdminById(id: number): Promise<Admin> {
     const existingAdmin = await this.adminRepository.findOne({ where: { id } });
     if (!existingAdmin) {
@@ -125,7 +130,8 @@ export class AdminService {
     }
     return existingAdmin;
   }
-  async findAllAdmins(): Promise<Admin[]> {
+
+  async findAll(): Promise<Admin[]> {
     return await this.adminRepository.find();
   }
 }

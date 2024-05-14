@@ -45,9 +45,9 @@ export class AdminController {
   })
   @ApiBadRequestResponse({ description: 'Cannot Create New Admin' })
   @Post()
-  async createAdmin(@Body() adminDto: AdminDto): Promise<Admin> {
+  async create(@Body() adminDto: AdminDto): Promise<Admin> {
     console.log('------------------create-admin-controller----------------');
-    return this.adminService.createAdmin(adminDto);
+    return this.adminService.create(adminDto);
   }
 
   @ApiCreatedResponse({
@@ -101,16 +101,18 @@ export class AdminController {
   @UseGuards(AdminJwtAuthGuard, PermissionsGuard)
   @Delete(':email')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteAdmin(@Param('email') email: string) {
+  async delete(@Param('email') email: string) {
     console.log(email);
 
-    return this.adminService.deleteAdmin(email);
+    return this.adminService.delete(email);
   }
+
   @ApiCreatedResponse({ description: '' })
   @Post('forgetPassword')
   async forgetPassword(@Body() forgetPasswordDto: ForgetPasswordDto) {
     await this.adminService.forgetPasword(forgetPasswordDto);
   }
+
   @ApiQuery({ name: 'token' })
   @Post('resetPassword')
   async resetPassowrd(
@@ -122,6 +124,7 @@ export class AdminController {
     console.log(token);
     return this.adminService.resetPassword(token, newPass);
   }
+
   @ApiResponse({
     status: 200,
     description: 'List of all admins',
@@ -130,7 +133,7 @@ export class AdminController {
   @Permission('Get_All_Admins')
   @UseGuards(AdminJwtAuthGuard, PermissionsGuard)
   @Get()
-  async findAllAdmins(): Promise<Admin[]> {
-    return await this.adminService.findAllAdmins();
+  async findAll(): Promise<Admin[]> {
+    return await this.adminService.findAll();
   }
 }

@@ -18,7 +18,7 @@ export class ProductService {
     @InjectRepository(Product) private productRepository: Repository<Product>,
     @InjectRepository(Service) private serviceRepository: Repository<Service>,
   ) {}
-  async createProduct(createProductDto: CreateProductDto): Promise<Product> {
+  async create(createProductDto: CreateProductDto): Promise<Product> {
     const { service, name } = createProductDto;
     const exsistingService = await this.serviceRepository.findOne({
       where: { name: service.name },
@@ -37,7 +37,7 @@ export class ProductService {
     newProduct.service = exsistingService;
     return await this.productRepository.save(newProduct);
   }
-  async findProductById(productId: number): Promise<Product> {
+  async findById(productId: number): Promise<Product> {
     const productExsist = await this.productRepository.findOne({
       where: { id: productId },
     });

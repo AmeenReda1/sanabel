@@ -18,18 +18,23 @@ export class User {
   @ApiProperty({ description: 'User Id' })
   @PrimaryGeneratedColumn()
   id: number;
+
   @ApiProperty({ description: 'User Name' })
   @Column()
   name: string;
+
   @ApiProperty({ description: 'User Email' })
   @Column({ unique: true })
   email: string;
+
   @ApiProperty({ description: 'User Password' })
   @Column()
   password: string;
+
   @ApiProperty({ description: 'User Token' })
   @Column({ default: '' })
   tokenId: string;
+
   @ApiProperty({ description: 'User Token valid For Specific Time' })
   @Column({ type: 'timestamp', nullable: true })
   tokenValid: Date;
@@ -38,12 +43,15 @@ export class User {
   @ManyToMany(() => Product, { eager: true })
   @JoinTable()
   has: Product[];
+
   @ApiProperty({ enum: ['Company_Owner', 'Company_User'] })
   @ManyToOne(() => Role, (role) => role.roleName, { eager: true })
   role: Role;
+
   @ApiProperty({ description: 'User Company' })
   @ManyToOne(() => Company, (company) => company.users, { eager: true })
   company: Company;
+
   @BeforeInsert()
   @BeforeUpdate()
   async hashPassword() {

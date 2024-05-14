@@ -17,6 +17,7 @@ export class Company {
   @ApiProperty({ description: 'Company Id' })
   @PrimaryGeneratedColumn()
   id: number;
+  
   @ApiProperty({ description: 'Company Name' })
   @Column({ unique: true })
   companyName: string;

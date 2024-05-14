@@ -12,19 +12,19 @@ import { PermissionsGuard } from 'src/common/gurads/permission.guard';
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
-  @Permission('create_Product')
+
+  @Permission('reate_Product')
   @UseGuards(AdminJwtAuthGuard, PermissionsGuard)
   @Post()
-  async createProduct(
-    @Body() createProductDto: CreateProductDto,
-  ): Promise<Product> {
-    return await this.productService.createProduct(createProductDto);
+  async create(@Body() createProductDto: CreateProductDto): Promise<Product> {
+    return await this.productService.create(createProductDto);
   }
+
   @ApiCreatedResponse({ description: 'Get All Products', type: [Product] })
   @Permission('Get_All_Product')
   @UseGuards(AdminJwtAuthGuard, PermissionsGuard)
   @Get()
-  async getAllProducts(@Paginate() query: PaginateQuery) {
+  async findAll(@Paginate() query: PaginateQuery) {
     return await this.productService.findAll(query);
   }
 }

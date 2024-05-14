@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { ProductType } from '../enums/product-type.enum';
 import { Type } from 'class-transformer';
 import { CreateServiceDto } from 'src/service/dtos/create-service.dto';

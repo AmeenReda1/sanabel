@@ -50,6 +50,7 @@ export class RoleService {
     }
     return roleExists;
   }
+  
   async findAll(query): Promise<Paginated<Role>> {
     return paginate(query, this.roleRepository, rolePaginateConfig);
   }

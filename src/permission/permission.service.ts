@@ -13,7 +13,7 @@ export class permissionService {
     private permissionRepository: Repository<Permission>,
   ) {}
 
-  async createPermission(permissionDto: PermissionDto): Promise<Permission> {
+  async create(permissionDto: PermissionDto): Promise<Permission> {
     const { permission_name } = permissionDto;
     const permissionExists = await this.permissionRepository.find({
       where: { permission_name },
@@ -27,6 +27,7 @@ export class permissionService {
     const newpermission = await this.permissionRepository.create(permissionDto);
     return await this.permissionRepository.save(newpermission);
   }
+
   async findAll(query): Promise<Paginated<Permission>> {
     return paginate(query, this.permissionRepository, permissionPaginateConfig);
   }

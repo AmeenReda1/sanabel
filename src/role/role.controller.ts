@@ -36,11 +36,12 @@ export class RoleController {
     console.log(roleId, permissionId);
     return this.roleService.assignPermission(roleId, permissionId);
   }
+
   @ApiCreatedResponse({ description: 'Get All Roles', type: [Role] })
   @Permission('Get_All_Role')
   @UseGuards(AdminJwtAuthGuard, PermissionsGuard)
   @Get()
-  async getAllRoles(@Paginate() query: PaginateQuery) {
+  async findAll(@Paginate() query: PaginateQuery) {
     return await this.roleService.findAll(query);
   }
 }

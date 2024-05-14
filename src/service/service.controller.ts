@@ -16,23 +16,23 @@ export class ServiceController {
   @ApiProperty({ description: 'Create Service' })
   @ApiCreatedResponse({ type: Service })
   @Post()
-  async createService(
-    @Body() createServiceDto: CreateServiceDto,
-  ): Promise<Service> {
-    return await this.serviceService.createService(createServiceDto);
+  async create(@Body() createDto: CreateServiceDto): Promise<Service> {
+    return await this.serviceService.create(createDto);
   }
+
   @Permission('Get_Specific_Service')
   @UseGuards(AdminJwtAuthGuard, PermissionsGuard)
   @ApiCreatedResponse({ type: Service })
   @Get(':id')
-  async findService(@Param('id') id: number): Promise<Service> {
-    return await this.serviceService.findService(id);
+  async findOne(@Param('id') id: number): Promise<Service> {
+    return await this.serviceService.findOne(id);
   }
+
   @ApiCreatedResponse({ description: 'Get All Services', type: [Service] })
   @Permission('Get_All_Service')
   @UseGuards(AdminJwtAuthGuard, PermissionsGuard)
   @Get()
-  async getAllServices(@Paginate() query: PaginateQuery) {
+  async findAll(@Paginate() query: PaginateQuery) {
     return await this.serviceService.findAll(query);
   }
 }

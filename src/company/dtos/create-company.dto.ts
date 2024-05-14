@@ -8,6 +8,7 @@ export class CreateCompanyDto {
   @IsNotEmpty({ message: 'company Name is required' })
   @IsString()
   company: string;
+  
   @ApiProperty({ description: 'Company Owner Object' })
   @Type(() => CreateUserDto)
   user: CreateUserDto;

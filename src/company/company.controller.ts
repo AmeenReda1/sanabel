@@ -1,6 +1,5 @@
 import {
   Body,
-  ConflictException,
   Controller,
   Get,
   Param,
@@ -24,21 +23,21 @@ export class CompanyController {
     private companyService: CompanyService,
     private readonly userService: UserService,
   ) {}
+
   @ApiCreatedResponse({ description: 'Created Company', type: Company })
   @Permission('Create_Company')
   @UseGuards(AdminJwtAuthGuard, PermissionsGuard)
   @Post()
-  async createCompany(@Body() createComapnyDto: CreateCompanyDto) {
-    console.log('inside create in company controller');
+  async create(@Body() createComapnyDto: CreateCompanyDto) {
     const savedCompany =
-      await this.companyService.createCompanyAndAssignOwner(createComapnyDto);
+      await this.companyService.createAndAssignOwner(createComapnyDto);
 
     return savedCompany;
   }
 
   @ApiCreatedResponse({ description: 'Get All Companies', type: [Company] })
   @Get()
-  async getAllCompanies(@Paginate() query: PaginateQuery) {
+  async findAll(@Paginate() query: PaginateQuery) {
     return await this.companyService.findAll(query);
   }
 

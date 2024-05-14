@@ -122,7 +122,7 @@ export class UserController {
   @Permission('Assign_Product_To_User')
   @UseGuards(JwtAuthGuard, PermissionsGuard)
   @Patch('assignToProduct/:userId')
-  async assignProductToUser(
+  async assignProduct(
     @Request() request,
     @Param('userId', ParseIntPipe) userId: number,
     @Body('productId', ParseIntPipe) productId: number,
@@ -134,11 +134,7 @@ export class UserController {
     if (!company) {
       throw new NotFoundException(`There Isn't Company For This Logged User`);
     }
-    return await this.userService.assignProductToUser(
-      company,
-      userId,
-      productId,
-    );
+    return await this.userService.assignProduct(company, userId, productId);
   }
 
   @ApiBody({
@@ -161,21 +157,21 @@ export class UserController {
   @Permission('Assign_Company_To_User')
   @UseGuards(JwtAuthGuard, PermissionsGuard)
   @Patch('assignToCompany/:userId')
-  async assignCompanyToUser(
+  async assignCompany(
     @Param('userId', ParseIntPipe) userId: number,
     @Req() req,
   ) {
     console.log('from add company route');
     const company: Company = req.user.company;
     console.log(typeof req.user.comapny);
-    await this.userService.assignCompanyToUser(userId, company);
+    await this.userService.assignCompany(userId, company);
   }
 
   @ApiCreatedResponse({ description: 'Get All Users', type: [User] })
   @Permission('Get_All_Users')
   @UseGuards(AdminJwtAuthGuard, PermissionsGuard)
   @Get()
-  async getAllUsers(@Paginate() query: PaginateQuery) {
+  async findAll(@Paginate() query: PaginateQuery) {
     return await this.userService.findAll(query);
   }
 }

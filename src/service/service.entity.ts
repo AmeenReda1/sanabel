@@ -7,9 +7,11 @@ export class Service {
   @ApiProperty({ description: 'Service Id' })
   @PrimaryGeneratedColumn()
   id: number;
+
   @ApiProperty({ description: 'Service Name' })
   @Column({ unique: true })
   name: string;
+
   @OneToMany(() => Product, (product) => product.service, { eager: true })
   product: Product[];
 }

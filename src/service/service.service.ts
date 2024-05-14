@@ -11,19 +11,21 @@ export class ServiceService {
   constructor(
     @InjectRepository(Service) private serviceRepository: Repository<Service>,
   ) {}
-  async createService(createServiceDto: CreateServiceDto): Promise<Service> {
-    console.log(createServiceDto);
-    const { name } = createServiceDto;
+
+  async create(createDto: CreateServiceDto): Promise<Service> {
+    console.log(createDto);
+    const { name } = createDto;
     const existingService = await this.serviceRepository.findOne({
       where: { name },
     });
     if (existingService) {
       throw new ConflictException(`This Service Already Exsists`);
     }
-    const newService = this.serviceRepository.create(createServiceDto);
+    const newService = this.serviceRepository.create(createDto);
     return await this.serviceRepository.save(newService);
   }
-  async findService(id: number): Promise<Service> {
+
+  async findOne(id: number): Promise<Service> {
     const exsistingService = await this.serviceRepository.findOne({
       where: { id },
     });
@@ -32,6 +34,7 @@ export class ServiceService {
     }
     return exsistingService;
   }
+
   async findAll(query): Promise<Paginated<Service>> {
     return paginate(query, this.serviceRepository, servicePaginateConfig);
   }

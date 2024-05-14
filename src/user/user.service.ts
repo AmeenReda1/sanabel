@@ -82,6 +82,7 @@ export class UserService {
     });
     return { existingUser, token };
   }
+
   async forgetPasword(forgetPassowrdDto: ForgetPasswordDto) {
     //  check if the email exists and send token via email
     const { email } = forgetPassowrdDto;
@@ -97,16 +98,17 @@ export class UserService {
     const message = `${process.env.BASE_URL}user/resetPassword?token=${tokenUuId}`;
     const mailOption: EmailOptions = { email, subject, message };
     try {
-      await this.emailService.sendPassWordResetEmail(mailOption);
       exsitingUser.tokenId = tokenUuId;
       exsitingUser.tokenValid = new Date(Date.now() + 10 * 60 * 1000);
       await this.userRepository.save(exsitingUser);
+      await this.emailService.sendPassWordResetEmail(mailOption);
     } catch (err) {
       exsitingUser.tokenId = null;
       exsitingUser.tokenValid = null;
       await this.userRepository.save(exsitingUser);
     }
   }
+
   async resetPassword(token: UUID, newPassword: string) {
     const existingUser = await this.userRepository.findOne({
       where: { tokenId: token },
@@ -131,14 +133,16 @@ export class UserService {
       throw new UnauthorizedException(`Invalid Email Token`);
     }
   }
-  async findUserById(id: number): Promise<User> {
+
+  async findById(id: number): Promise<User> {
     const existingUser = await this.userRepository.findOne({ where: { id } });
     if (!existingUser) {
       throw new NotFoundException(`There is No User With This Id`);
     }
     return existingUser;
   }
-  async assignProductToUser(
+
+  async assignProduct(
     company: Company,
     userId: number,
     productId: number,
@@ -149,7 +153,7 @@ export class UserService {
     if (!userExists) {
       throw new NotFoundException(`There isn't User with this Id ${userId}`);
     }
-    const productExists = await this.productService.findProductById(productId);
+    const productExists = await this.productService.findById(productId);
     if (!productExists) {
       throw new NotFoundException(
         `There isn't product with this Id ${productId}  `,
@@ -166,7 +170,8 @@ export class UserService {
     userExists.has.push(productExists);
     return await this.userRepository.save(userExists);
   }
-  async assignCompanyToUser(userId: number, company: Company) {
+
+  async assignCompany(userId: number, company: Company) {
     const userExists = await this.userRepository.findOne({
       where: { id: userId },
     });
