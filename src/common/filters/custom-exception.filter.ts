@@ -12,8 +12,7 @@ import { LoggerService } from '../LoggerService';
 
 @Catch(HttpException)
 export class CustomExceptionFilter<T extends HttpException>
-  implements ExceptionFilter
-{
+  implements ExceptionFilter {
   catch(exception: T, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
@@ -21,11 +20,14 @@ export class CustomExceptionFilter<T extends HttpException>
     const status = exception.getStatus();
     const loggerService = new LoggerService();
     loggerService.logError(exception.message, request.url);
-
+    const exceptionResponse = exception.getResponse();
+    const message = typeof exceptionResponse == 'string' ? exceptionResponse : (exceptionResponse as any).message
     response.status(status).json({
       statusCode: status,
       timeStamp: new Date().toISOString(),
       path: request.url,
+      message,
+
     });
   }
 }

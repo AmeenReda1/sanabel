@@ -3,18 +3,11 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { User } from './user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RoleModule } from 'src/role/role.module';
-import { Role } from 'src/role/role.entity';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './strategies/user-local.strategy';
 import { JwtModule } from '@nestjs/jwt';
-import { EmailModule } from 'src/email/email.module';
 import { JwtStrategy } from './strategies/user-jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { PermissionsGuard } from 'src/common/gurads/permission.guard';
-import { ProductModule } from 'src/product/product.module';
-import { CompanyModule } from 'src/company/company.module';
-import { AdminModule } from 'src/admin/admin.module';
 
 @Module({
   imports: [
@@ -30,17 +23,12 @@ import { AdminModule } from 'src/admin/admin.module';
       }),
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([User, Role]),
-    RoleModule,
+    TypeOrmModule.forFeature([User]),
     PassportModule,
     JwtModule,
-    EmailModule,
-    ProductModule,
-    forwardRef(() => CompanyModule),
-    AdminModule,
   ],
   controllers: [UserController],
-  providers: [UserService, LocalStrategy, JwtStrategy, PermissionsGuard],
+  providers: [UserService, LocalStrategy, JwtStrategy],
   exports: [UserService],
 })
 export class UserModule {}

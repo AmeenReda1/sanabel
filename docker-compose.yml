@@ -1,8 +1,6 @@
-version: '3.1'
-
 services:
   nestproject:
-    container_name: 'nestproject'
+    container_name: 'sanabelProject'
     restart: always
     env_file:
       - ./.env
@@ -22,15 +20,12 @@ services:
 
   db:
     image: mysql
-    container_name: erp-project-mysql
+    container_name: sanabel-project-mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: test123
-      MYSQL_DATABASE:
-        erd-project
+      MYSQL_DATABASE: sanabel
         # Set the database name
-    volumes:
-      - nestjs_erp-project-mysql:/var/lib/mysql
     ports:
       - 3306:3306
     networks:
@@ -39,7 +34,7 @@ services:
   phpmyadmin:
     platform: linux/x86_64
     restart: always
-    container_name: 'phpmyadmin-nesterdproject'
+    container_name: 'phpmyadmin-sanabelproject'
     image: phpmyadmin/phpmyadmin
     env_file:
       - ./.env
@@ -55,7 +50,7 @@ services:
       - backend
 
 volumes:
-  nestjs_erp-project-mysql:
+  sanabel-project-mysql:
     driver: local
   phpmyadmin:
     driver: local

@@ -4,16 +4,13 @@ import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import * as Joi from 'joi';
 import { ConfigModule } from '@nestjs/config';
-import { AdminModule } from './admin/admin.module';
 import { APP_PIPE } from '@nestjs/core';
-import { RoleModule } from './role/role.module';
-import { permissionModule } from './permission/permission.module';
-import { CompanyModule } from './company/company.module';
-import { UserModule } from './user/user.module';
-import { EmailModule } from './email/email.module';
-import { ServiceModule } from './service/service.module';
-import { ProductModule } from './product/product.module';
 import { LoggerService } from './common/LoggerService';
+import { UserModule } from './user/user.module';
+import { CustomerModule } from './customer/customer.module';
+import { NewsModule } from './news/news.module';
+import { OffersModule } from './offers/offers.module';
+import { PartenerModule } from './partner/partner.module';
 
 @Module({
   imports: [
@@ -24,15 +21,12 @@ import { LoggerService } from './common/LoggerService';
       }),
       expandVariables: true,
     }),
-    AdminModule,
     DatabaseModule,
-    RoleModule,
-    permissionModule,
-    CompanyModule,
     UserModule,
-    EmailModule,
-    ServiceModule,
-    ProductModule,
+    CustomerModule,
+    NewsModule,
+    OffersModule,
+    PartenerModule,
   ],
   controllers: [AppController],
   providers: [
