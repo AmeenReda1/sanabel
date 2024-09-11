@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Headers, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Headers, Param, Delete, Header } from '@nestjs/common';
 import { NewsService } from './news.service';
 import { CreateNewsDto } from './dto/create-news.dto';
 import { Lang } from './entities/news.entity';
@@ -15,6 +15,10 @@ export class NewsController {
   @Get()
   findAll(@Headers('lang') lang: Lang) {
     return this.newsService.findAll(lang);
+  }
+  @Get(':id')
+  findOne(@Headers('id') lang: Lang,@Param('id') id:string) {
+    return this.newsService.findOne(+id,lang);
   }
 
 

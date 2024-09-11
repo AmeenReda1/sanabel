@@ -16,6 +16,10 @@ export class NewsService {
     return this.newsRepository.find({ where: { lang }, order: { created_at: 'DESC' } })
 
   }
+  findOne(id:number,lang: Lang) {
+    return this.newsRepository.findOne({ where: { id,lang }, order: { created_at: 'DESC' } })
+
+  }
   async remove(id: number) {
     const exisitingNews = await this.newsRepository.findOne({ where: { id } })
     if (!exisitingNews) throw new NotFoundException(`News With Id ${id} not found`);

@@ -17,6 +17,10 @@ export class OffersService {
     return this.offerRepository.find({ where: { lang }, order: { created_at: 'DESC' } })
 
   }
+  findOne(id:number,lang: Lang) {
+    return this.offerRepository.findOne({ where: { id,lang }, order: { created_at: 'DESC' } })
+
+  }
 
   async remove(id: number) {
     const exisitingOffer = await this.offerRepository.findOne({ where: { id } })

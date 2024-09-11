@@ -16,6 +16,10 @@ export class OffersController {
   findAll(@Headers('lang') lang: Lang) {
     return this.offersService.findAll(lang);
   }
+  @Get(':id')
+  findOne(@Headers('lang') lang: Lang,@Param('id') id:string) {
+    return this.offersService.findOne(+id,lang);
+  }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
