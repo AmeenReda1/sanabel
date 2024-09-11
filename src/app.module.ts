@@ -11,7 +11,11 @@ import { CustomerModule } from './customer/customer.module';
 import { NewsModule } from './news/news.module';
 import { OffersModule } from './offers/offers.module';
 import { PartenerModule } from './partner/partner.module';
-
+import { MulterModule } from '@nestjs/platform-express';
+import * as os from 'os';
+import * as path from 'path';
+const tempPath = os.tmpdir();
+console.log(tempPath)
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -20,6 +24,9 @@ import { PartenerModule } from './partner/partner.module';
         PORT: Joi.number().required(),
       }),
       expandVariables: true,
+    }),
+    MulterModule.register({
+      dest: './public',
     }),
     DatabaseModule,
     UserModule,

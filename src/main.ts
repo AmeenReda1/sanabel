@@ -5,9 +5,10 @@ import { ConfigService } from '@nestjs/config';
 import 'winston-daily-rotate-file';
 import { CustomExceptionFilter } from './common/filters/custom-exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-
+import { join } from 'path';
+import { NestExpressApplication } from '@nestjs/platform-express';
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService: ConfigService = app.get(ConfigService);
   const port = configService.get<number>('PORT') || 9000;
   console.log(configService.get<number>('PORT'));
@@ -20,7 +21,11 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
   app.useGlobalFilters(new CustomExceptionFilter());
-
+  const publicPath = join(__dirname, '..','public');
+  app.useStaticAssets(publicPath, {
+    index: false,
+    prefix: '/public',
+  });
   await app.listen(port);
 }
 bootstrap();
