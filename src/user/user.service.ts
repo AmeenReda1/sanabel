@@ -18,6 +18,7 @@ export class UserService {
   ) { }
   async validateUser(email: string, pass: string) {
     const existingUser = await this.userRepository.findOne({where:{email}});
+    console.log(existingUser)
     if (!existingUser) {
       throw new NotFoundException(`User Email OR Password Not Correct `);
     }
