@@ -21,10 +21,15 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
   app.useGlobalFilters(new CustomExceptionFilter());
-  const publicPath = join(__dirname, '..','public');
+  const publicPath = join(__dirname, '..', 'public');
   app.useStaticAssets(publicPath, {
     index: false,
     prefix: '/public',
+  });
+  app.enableCors({
+    origin: '*',  // Allow all origins
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type, Authorization, lang',
   });
   await app.listen(port);
 }
